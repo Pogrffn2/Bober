@@ -1,0 +1,61 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #abb5ca; /* Базовый серо-голубой фон */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #323742; /* Глубокий темно-серый для обычного текста */
+}
+
+/* Главный заголовок (Название бара) */
+.App-header h1 {
+  color: #eef2f7; /* Светлый бело-серый цвет, отлично горит на фоне */
+  margin-bottom: 20px;
+}
+
+/* Описание или подзаголовки */
+.App-header p {
+  color: #323742; 
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* Ссылки и интерактивные элементы (Интегрировали .App-link сюда) */
+.App-link {
+  color: #00f0ff; /* Неоново-голубой акцент вместо черного */
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Эффект при наведении на ссылку/кнопку */
+.App-link:hover {
+  opacity: 0.8;
+  text-shadow: 0 0 10px #00f0ff; /* Эффект неонового свечения при наведении */
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
