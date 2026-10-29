@@ -1,0 +1,385 @@
+/* Базовая настройка темы в стиле Главного хаба (Карты) */
+.agent-select-screen {
+  min-height: 100vh;
+  width: 100vw;
+  background: #101311; /* В цвет фона вашей карты */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 6%;
+  box-sizing: border-box;
+}
+
+.val-grid-container {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  gap: 40px;
+  flex: 1;
+  align-items: center;
+  max-width: 1300px;
+  width: 100%;
+  margin: 30px auto 0;
+}
+
+.val-left-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.val-panel-title {
+  display: none;
+}
+
+/* Переключатели Светлой / Тёмной сторон */
+.val-side-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.side-tab-btn {
+  background: transparent;
+  border: 1px solid #343a35;
+  color: #848b82;
+  padding: 10px 16px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.side-tab-btn:hover {
+  border-color: #ff6838;
+  color: #f0eee7;
+}
+
+.side-tab-btn.active {
+  color: #161512;
+  font-weight: 800;
+}
+
+.side-tab-btn:not(.light-tab):not(.dark-tab).active { background: #f0eee7; border-color: #f0eee7; }
+.side-tab-btn.light-tab.active { background: #ff6838; border-color: #ff6838; }
+.side-tab-btn.dark-tab.active { background: #a6aaa1; border-color: #a6aaa1; } /* Серый тактический цвет для Тёмной стороны */
+
+/* Сетка карточек напитков */
+.val-agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.val-agent-grid::-webkit-scrollbar { width: 3px; }
+.val-agent-grid::-webkit-scrollbar-track { background: #101311; }
+.val-agent-grid::-webkit-scrollbar-thumb { background: #343a35; }
+
+.val-agent-card {
+  background: transparent;
+  border: 1px solid #343a35;
+  padding: 12px;
+  color: #f0eee7;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+/* Ховер эффекты сторон в стиле карты */
+.val-agent-card.item-light-style:hover,
+.val-agent-card.item-light-style.selected {
+  border-color: #ff6838;
+  box-shadow: 0 0 15px rgba(255, 104, 56, 0.15);
+}
+
+.val-agent-card.item-dark-style:hover,
+.val-agent-card.item-dark-style.selected {
+  border-color: #a6aaa1;
+  box-shadow: 0 0 15px rgba(166, 170, 161, 0.15);
+}
+
+.agent-icon-mini-box {
+  width: 38px;
+  height: 38px;
+  background: #171916;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: 'Oswald', sans-serif;
+  border: 1px solid #343a35;
+  color: #848b82;
+}
+
+.val-agent-card.item-light-style.selected .agent-icon-mini-box { color: #ff6838; border-color: #ff6838; }
+.val-agent-card.item-dark-style.selected .agent-icon-mini-box { color: #a6aaa1; border-color: #a6aaa1; }
+
+.val-agent-card span {
+  font-size: 9px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #848b82;
+}
+
+.val-agent-card:hover span { color: #f0eee7; }
+
+/* Правая панель - 3D Карточка */
+.val-right-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.val-empty-preview {
+  width: 100%;
+  max-width: 440px;
+  height: 480px;
+  border: 1px solid #343a35;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #848b82;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.val-target-lock {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #343a35;
+  animation: rotateLock 4s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes rotateLock { 100% { transform: rotate(360deg); } }
+
+.val-loading-db {
+  font-family: 'Oswald', sans-serif;
+  color: #ff6838;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+/* Настройки 3D флипа */
+.val-preview-card {
+  width: 100%;
+  max-width: 440px;
+  height: 490px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.val-preview-card.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  padding: 35px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Сторона А - Светлый тултип (Оранжевый акцент) */
+.face-light {
+  background: #f0eee7;
+  color: #171916;
+  border-left: 3px solid #ff6838;
+}
+.face-light .val-drink-title, 
+.face-light .val-agent-tag-name { color: #171916; }
+.face-light .val-drink-role { color: #ff6838; }
+.face-light .val-desc-text-long { color: #45463d; }
+.face-light .val-short-mix { color: #c64d28; }
+.face-light .val-drink-price-tag { color: #171916; border-top: 1px solid rgba(0,0,0,0.1); }
+
+/* Сторона А - Тёмный тултип (Серый акцент) */
+.face-dark {
+  background: #0d0f0e;
+  color: #f0eee7;
+  border: 1px solid #343a35;
+  border-left: 3px solid #a6aaa1;
+}
+.face-dark .val-drink-title { color: #fff; }
+.face-dark .val-drink-role { color: #a6aaa1; }
+.face-dark .val-desc-text-long { color: #c3c0b5; }
+.face-dark .val-short-mix { color: #a6aaa1; }
+.face-dark .val-drink-price-tag { color: #a6aaa1; border-top: 1px solid #343a35; }
+
+/* Сторона Б - Изнанка Светлая */
+.face-light-back {
+  background: #e5e3dc;
+  color: #171916;
+  transform: rotateY(180deg);
+  border-left: 3px solid #ff6838;
+}
+.face-light-back .val-drink-title { color: #171916; }
+.face-light-back .val-drink-role { color: #ff6838; }
+.face-light-back .val-desc-text-long { color: #45463d; }
+.face-light-back .val-drink-price-tag { color: #171916; border-top: 1px solid rgba(0,0,0,0.1); }
+
+/* Сторона Б - Изнанка Тёмная */
+.face-dark-back {
+  background: #111413;
+  color: #f0eee7;
+  transform: rotateY(180deg);
+  border-left: 3px solid #a6aaa1;
+  border: 1px solid #343a35;
+}
+.face-dark-back .val-drink-title { color: #fff; }
+.face-dark-back .val-drink-role { color: #a6aaa1; }
+.face-dark-back .val-desc-text-long { color: #c3c0b5; }
+.face-dark-back .val-drink-price-tag { color: #a6aaa1; border-top: 1px solid #343a35; }
+
+/* Общая типографика элементов карточки */
+.val-drink-role {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.val-drink-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 32px;
+  letter-spacing: 1px;
+  margin: 10px 0 5px;
+  line-height: 1.1;
+}
+
+.val-agent-tag-name {
+  font-size: 10px;
+  color: #848b82;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.val-info-section-box { margin-bottom: 20px; }
+.val-info-section-box small {
+  font-size: 9px;
+  color: #848b82;
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.val-short-mix {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.val-desc-text-long {
+  line-height: 1.6;
+  font-size: 13px;
+  margin: 0;
+}
+
+.val-drink-price-tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 26px;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.val-card-overlay-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 8px;
+  padding: 8px;
+  letter-spacing: 1px;
+  color: #848b82;
+}
+
+/* ==========================================================================
+   НИЖНИЙ БЛОК ДЕЙСТВИЙ (FOOTER)
+   ========================================================================== */
+.val-bottom-action-bar {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 20px;
+  border-top: 1px solid #343a35;
+  padding-top: 25px;
+  margin-top: 30px;
+  max-width: 1300px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.val-bottom-box {
+  border: 1px solid #343a35;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+}
+
+.val-action-btn {
+  background: transparent;
+  border: 1px solid #45463d;
+  color: #e9e6dd;
+  padding: 12px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.val-action-btn:hover:not(:disabled) { border-color: #ff6838; }
+.val-action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+.val-cart-status small { color: #848b82; font-size: 8px; letter-spacing: 1px; }
+.val-cart-status p { color: #ff6838; font-size: 11px; margin: 2px 0 0 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.val-main-lock-btn {
+  background: #ff6838;
+  color: #161512;
+  border: none;
+  padding: 15px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.val-main-lock-btn:hover { background: #ff835b; }
+
+.val-link-back-btn {
+  background: transparent;
+  border: none;
+  color: #848b82;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-align: center;
+}
+.val-link-back-btn:hover { color: #ff6838; text-decoration: underline; }
+
+@media (max-width: 950px) {
+  .val-grid-container { grid-template-columns: 100%; }
+  .val-bottom-action-bar { grid-template-columns: 100%; }
+}

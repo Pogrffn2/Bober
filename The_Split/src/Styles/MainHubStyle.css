@@ -1,0 +1,364 @@
+@import url('https://googleapis.com');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #f0eee7;
+  background: #101311;
+  font-synthesis: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #101311;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid #ff6838;
+  outline-offset: 5px;
+}
+
+.split-app {
+  min-height: 100vh;
+  width: 100vw;
+  background: #101311;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Главный контейнер экрана карты */
+.map-screen {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 5%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Верхняя панель */
+.topbar,
+.bar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.brand {
+  font-family: 'Oswald', sans-serif;
+  font-size: 30px;
+  letter-spacing: 5px;
+  font-weight: 700;
+}
+
+.brand span {
+  color: #ff6838;
+  font-size: 12px;
+  vertical-align: top;
+  margin-left: 3px;
+}
+
+.top-label,
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #a6aaa1;
+}
+
+/* Распределение в две колонки на ПК экранах */
+@media (min-width: 900px) {
+  .map-screen {
+    padding: 50px 6% 40px;
+    display: grid;
+    grid-template-areas: 
+      "header header"
+      "heading map"
+      "footer footer";
+    grid-template-columns: 40% 60%;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .topbar { grid-area: header; }
+  .map-heading { grid-area: heading; margin-top: 0 !important; padding-right: 40px; }
+  .map { grid-area: map; margin-top: 0 !important; width: 100% !important; max-width: none !important; }
+}
+
+.map-heading {
+  position: relative;
+  z-index: 2;
+  margin-top: 50px;
+  pointer-events: none;
+}
+
+.map-heading > p {
+  color: #ff6838;
+  font-size: 10px;
+  letter-spacing: 4px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.map-heading h1,
+.bar-content h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(40px, 4.5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: 1px;
+  margin: 15px 0;
+}
+
+.map-heading > span {
+  font-size: 12px;
+  color: #a6aaa1;
+}
+
+/* Контейнер карты */
+.map {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.world-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* СТИЛИ МЕТКИ ТОКИО ВНУТРИ SVG (Оранжевая) */
+.tokyo-svg-group {
+  cursor: pointer;
+}
+
+.svg-marker-dot {
+  fill: #ff6838;
+}
+
+.svg-marker-pulse {
+  fill: rgba(255, 104, 56, 0.2);
+  stroke: #ff6838;
+  stroke-width: 1.5;
+  transform-origin: 832px 183px;
+  animation: svgPulse 2s infinite ease-out;
+}
+
+/* ПАСХАЛКА ДЛЯ КАФЕ ДРУГА (Фиолетовый стиль Reyna из Valorant) */
+.friend-cafe-group {
+  cursor: help; 
+}
+
+.svg-reyna-dot {
+  fill: #b624ff; 
+  filter: drop-shadow(0px 0px 6px #b624ff);
+}
+
+.svg-reyna-pulse {
+  fill: rgba(182, 36, 255, 0.15);
+  stroke: #b624ff; 
+  stroke-width: 1.5;
+  transform-origin: 860px 305px; 
+  animation: svgPulseReyna 2.2s infinite ease-out; 
+}
+
+/* Тултип пасхалки: черный фон, фиолетовый неон */
+.reyna-easter-egg {
+  background: #0d0f0e !important;
+  border: 1px solid #221230 !important;
+  border-left: 3px solid #b624ff !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 15px rgba(182, 36, 255, 0.1) !important;
+}
+
+/* НАПРАВЛЕННЫЙ ПРИОРИТЕТ: Делаем буквы заголовка кафе БЕЛЫМИ */
+.marker-tooltip-inside-svg.reyna-easter-egg strong {
+  color: #ffffff !important;
+}
+
+@keyframes svgPulse {
+  0% { transform: scale(0.4); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes svgPulseReyna {
+  0% { transform: scale(0.4); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* СТИЛИЗАЦИЯ ТУЛТИПОВ ВНУТРИ SVG */
+.svg-tooltip-container {
+  overflow: visible;
+  pointer-events: none; 
+}
+
+/* Базовый дизайн плашки Токио: светлый задник */
+.marker-tooltip-inside-svg {
+  background: #f0eee7; 
+  color: #171916;
+  padding: 15px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border-left: 3px solid #ff6838; 
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* Шрифт заголовка Токио (По умолчанию тёмный для светлого фона) */
+.marker-tooltip-inside-svg strong {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #171916 !important;
+}
+
+.marker-tooltip-inside-svg small,
+.marker-tooltip-inside-svg > span {
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.marker-tooltip-inside-svg > span {
+  color: #c64d28;
+  margin-top: 5px;
+}
+
+/* Нижний подвал сайта */
+.map-footer {
+  grid-area: footer;
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid #343a35;
+  padding-top: 20px;
+  color: #848b82;
+  font-size: 9px;
+  letter-spacing: 2px;
+  width: 100%;
+}
+
+/* --- ЭКРАН БАРА --- */
+.bar-screen {
+  min-height: 100vh;
+  padding: 40px 6%;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 60%, #6d301a55 0, transparent 40%),
+    linear-gradient(120deg, #101311 35%, #251b16 100%);
+}
+
+.back-button {
+  background: none;
+  border: 1px solid #45463d;
+  color: #e9e6dd;
+  padding: 12px 16px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  border-color: #ff6838;
+}
+
+.bar-content {
+  padding-top: clamp(65px, 10vh, 110px);
+  max-width: 650px;
+  position: relative;
+  z-index: 2;
+}
+
+.bar-content h1 {
+  font-size: clamp(76px, 13vw, 145px);
+  line-height: 0.85;
+  margin: 25px 0;
+}
+
+.bar-content h1 span {
+  color: #ff6838;
+}
+
+.bar-description {
+  color: #c3c0b5;
+  line-height: 1.9;
+  font-size: 14px;
+}
+
+.enter-button {
+  margin-top: 28px;
+  padding: 17px 24px;
+  background: #ff6838;
+  color: #161512;
+  border: none;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.enter-button span {
+  margin-left: 30px;
+}
+
+.enter-button:hover {
+  background: #ff835b;
+}
+
+.bar-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  margin-top: 65px;
+  padding-top: 25px;
+  border-top: 1px solid #454139;
+}
+
+.bar-details small {
+  color: #ff8055;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.bar-details p {
+  color: #d0ccc1;
+  font-size: 11px;
+}
+
+.bar-stamp {
+  position: absolute;
+  right: 8%;
+  top: 30%;
+  color: #ff6838;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(60px, 10vw, 130px);
+  font-weight: 700;
+  line-height: 0.75;
+  opacity: 0.12;
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+
+@media (max-width: 899px) {
+  .map-screen { padding: 28px 6%; display: flex; flex-direction: column; }
+  .map-heading h1 { font-size: 42px; }
+  .map { width: 100%; margin-top: 20px; }
+}
