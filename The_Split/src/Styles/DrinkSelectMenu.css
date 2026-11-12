@@ -2,7 +2,7 @@
 .agent-select-screen {
   min-height: 100vh;
   width: 100vw;
-  background: #101311; /* В цвет фона вашей карты */
+  background: #101311; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,6 +10,110 @@
   box-sizing: border-box;
 }
 
+/* ==========================================================================
+   ОБНОВЛЕННАЯ СТРУКТУРА ШАПКИ И СТИЛЬ КНОПОК ПО СНИМКУ
+   ========================================================================== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #343a35;
+  padding-bottom: 20px;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto 10px;
+}
+
+.brand {
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #f0eee7;
+}
+
+.brand span {
+  color: #ff6838;
+}
+
+.header-navigation-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.top-label {
+  color: #848b82;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Блок навигации */
+.header-navigation-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Контейнер для кнопок */
+.val-auth-cluster {
+  display: flex;
+  gap: 10px;
+  background: transparent !important;
+  padding: 0;
+  margin-bottom: 2px;
+}
+
+/* Обе кнопки по умолчанию выглядят абсолютно одинаково */
+.val-auth-btn {
+  background: transparent !important;
+  border: 1px solid #343a35 !important; /* Единый цвет рамки для всех кнопок */
+  color: #848b82 !important; /* Единый цвет текста */
+  padding: 8px 16px;
+  font-size: 10px;
+  
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  
+  border-radius: 0px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* При наведении мыши обе кнопки одинаково подсвечиваются оранжевым */
+.val-auth-btn:hover {
+  background: transparent !important;
+  border-color: #ff6838 !important; /* Загорается оранжевым */
+  color: #f0eee7 !important; /* Текст становится белым */
+}
+
+/* Сбрасываем уникальный приоритет для логина, чтобы он не выделялся */
+.val-auth-btn-primary {
+  border-color: #343a35 !important;
+  color: #848b82 !important;
+}
+
+/* Кнопка Личного Кабинета (появляется после входа) */
+.val-cabinet-btn {
+  border-color: #a6aaa1 !important;
+  color: #f0eee7 !important;
+}
+
+.val-cabinet-btn:hover {
+  background: #f0eee7 !important;
+  color: #101311 !important;
+  border-color: #f0eee7 !important;
+}
+.val-auth-btn-primary, .val-cabinet-btn {
+  background: #f0eee7;
+}
+/* Главный двухколоночный контейнер страницы */
 .val-grid-container {
   display: grid;
   grid-template-columns: 45% 55%;
@@ -26,10 +130,6 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
-}
-
-.val-panel-title {
-  display: none;
 }
 
 /* Переключатели Светлой / Тёмной сторон */
@@ -63,7 +163,7 @@
 
 .side-tab-btn:not(.light-tab):not(.dark-tab).active { background: #f0eee7; border-color: #f0eee7; }
 .side-tab-btn.light-tab.active { background: #ff6838; border-color: #ff6838; }
-.side-tab-btn.dark-tab.active { background: #a6aaa1; border-color: #a6aaa1; } /* Серый тактический цвет для Тёмной стороны */
+.side-tab-btn.dark-tab.active { background: #a6aaa1; border-color: #a6aaa1; }
 
 /* Сетка карточек напитков */
 .val-agent-grid {
@@ -130,7 +230,6 @@
 }
 
 .val-agent-card:hover span { color: #f0eee7; }
-
 /* Правая панель - 3D Карточка */
 .val-right-panel {
   display: flex;
@@ -246,104 +345,50 @@
 .face-dark-back .val-drink-price-tag { color: #a6aaa1; border-top: 1px solid #343a35; }
 
 /* Общая типографика элементов карточки */
-.val-drink-role {
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 800;
-}
-
-.val-drink-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 32px;
-  letter-spacing: 1px;
-  margin: 10px 0 5px;
-  line-height: 1.1;
-}
-
-.val-agent-tag-name {
-  font-size: 10px;
-  color: #848b82;
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin-bottom: 25px;
-}
-
+.val-drink-role { font-size: 10px; letter-spacing: 2px; font-weight: 800; }
+.val-drink-title { font-family: 'Oswald', sans-serif; font-size: 32px; letter-spacing: 1px; margin: 10px 0 5px; line-height: 1.1; }
+.val-agent-tag-name { font-size: 10px; color: #848b82; letter-spacing: 1px; font-weight: 700; margin-bottom: 25px; }
 .val-info-section-box { margin-bottom: 20px; }
-.val-info-section-box small {
-  font-size: 9px;
-  color: #848b82;
-  letter-spacing: 1px;
-  font-weight: 700;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.val-short-mix {
-  font-size: 14px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.val-desc-text-long {
-  line-height: 1.6;
-  font-size: 13px;
-  margin: 0;
-}
-
-.val-drink-price-tag {
-  font-family: 'Oswald', sans-serif;
-  font-size: 26px;
-  margin-top: auto;
-  padding-top: 15px;
-}
-
-.val-card-overlay-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 8px;
-  padding: 8px;
-  letter-spacing: 1px;
-  color: #848b82;
-}
-
+.val-info-section-box small { font-size: 9px; color: #848b82; letter-spacing: 1px; font-weight: 700; display: block; margin-bottom: 6px; }
+.val-short-mix { font-size: 14px; font-weight: 700; margin: 0; }
+.val-desc-text-long { line-height: 1.6; font-size: 13px; margin: 0; }
+.val-drink-price-tag { font-family: 'Oswald', sans-serif; font-size: 26px; margin-top: auto; padding-top: 15px; }
+.val-card-overlay-hint { position: absolute; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 8px; padding: 8px; letter-spacing: 1px; color: #848b82; }
 /* ==========================================================================
    НИЖНИЙ БЛОК ДЕЙСТВИЙ (FOOTER)
    ========================================================================== */
-.val-bottom-action-bar {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 20px;
-  border-top: 1px solid #343a35;
-  padding-top: 25px;
-  margin-top: 30px;
-  max-width: 1300px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+.val-bottom-action-bar { 
+  display: grid; 
+  grid-template-columns: 1fr 1.2fr 1fr; 
+  gap: 20px; 
+  border-top: 1px solid #343a35; 
+  padding-top: 25px; 
+  margin-top: 30px; 
+  max-width: 1300px; 
+  width: 100%; 
+  margin-left: auto; 
+  margin-right: auto; 
 }
 
-.val-bottom-box {
-  border: 1px solid #343a35;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  background: transparent;
+.val-bottom-box { 
+  border: 1px solid #343a35; 
+  padding: 16px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  gap: 8px; 
+  background: transparent; 
 }
 
-.val-action-btn {
-  background: transparent;
-  border: 1px solid #45463d;
-  color: #e9e6dd;
-  padding: 12px;
-  font-size: 10px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: border-color 0.2s;
+.val-action-btn { 
+  background: transparent; 
+  border: 1px solid #45463d; 
+  color: #e9e6dd; 
+  padding: 12px; 
+  font-size: 10px; 
+  letter-spacing: 1px; 
+  cursor: pointer; 
+  transition: border-color 0.2s; 
 }
 
 .val-action-btn:hover:not(:disabled) { border-color: #ff6838; }
@@ -352,34 +397,131 @@
 .val-cart-status small { color: #848b82; font-size: 8px; letter-spacing: 1px; }
 .val-cart-status p { color: #ff6838; font-size: 11px; margin: 2px 0 0 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.val-main-lock-btn {
-  background: #ff6838;
-  color: #161512;
-  border: none;
-  padding: 15px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: background 0.2s;
+.val-main-lock-btn { 
+  background: #ff6838; 
+  color: #161512; 
+  border: none; 
+  padding: 15px; 
+  font-family: 'Oswald', sans-serif; 
+  font-size: 14px; 
+  font-weight: 800; 
+  letter-spacing: 2px; 
+  cursor: pointer; 
+  transition: background 0.2s; 
 }
 
 .val-main-lock-btn:hover { background: #ff835b; }
 
-.val-link-back-btn {
-  background: transparent;
-  border: none;
-  color: #848b82;
-  font-size: 10px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: color 0.2s;
-  text-align: center;
+.val-link-back-btn { 
+  background: transparent; 
+  border: none; 
+  color: #848b82; 
+  font-size: 10px; 
+  letter-spacing: 1px; 
+  cursor: pointer; 
+  transition: color 0.2s; 
+  text-align: center; 
 }
 .val-link-back-btn:hover { color: #ff6838; text-decoration: underline; }
 
+/* ==========================================================================
+   СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКНО (В цвет остальной темы)
+   ========================================================================== */
+.val-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+
+.val-modal-box {
+  background: #0d0f0e;
+  border: 1px solid #343a35;
+  border-top: 3px solid #ff6838;
+  width: 100%; max-width: 400px;
+  padding: 30px; box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.val-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.val-modal-header h3 { font-family: 'Oswald', sans-serif; color: #f0eee7; font-size: 18px; letter-spacing: 2px; margin: 0; }
+.close-modal-btn { background: transparent; border: none; color: #848b82; font-size: 14px; cursor: pointer; transition: color 0.2s; }
+.close-modal-btn:hover { color: #ff6838; }
+
+.val-modal-form { display: flex; flex-direction: column; gap: 20px; }
+.val-input-group { display: flex; flex-direction: column; gap: 6px; }
+.val-input-group label { font-size: 9px; color: #848b82; letter-spacing: 1px; font-weight: 700; }
+.val-input-group input { background: #141715; border: 1px solid #343a35; color: #f0eee7; padding: 12px; font-size: 12px; font-family: inherit; outline: none; transition: all 0.2s; }
+.val-input-group input:focus { border-color: #ff6838; background: #171916; }
+.val-input-group input::placeholder { color: #45463d; }
+
+.val-modal-submit-btn { background: #ff6838; color: #161512; border: none; padding: 14px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+.val-modal-submit-btn:hover { background: #ff835b; }
+
+/* Адаптивность для мобильных экранов */
 @media (max-width: 950px) {
   .val-grid-container { grid-template-columns: 100%; }
   .val-bottom-action-bar { grid-template-columns: 100%; }
+}
+
+/* Контейнер уведомления */
+.val-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  background: #111111;
+  border: 1px solid #333;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  min-width: 320px;
+  font-family: 'Oswald', sans-serif;
+  animation: valSlideIn 0.3s cubic-bezier(0.1, 1, 0.1, 1) forwards;
+}
+
+/* Линия статуса слева */
+.toast-accent-line {
+  width: 6px;
+}
+.toast-success .toast-accent-line { background: #ff4655; /* Фирменный оранжево-красный Valorant */ }
+.toast-error .toast-accent-line { background: #8b0000; /* Темно-красный при ошибке */ }
+
+/* Контент внутри */
+.toast-content {
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toast-status-code {
+  font-size: 10px !important;
+  letter-spacing: 2px !important;
+  color: #a0a0a0 !important; /* Делаем технический текст светло-серым вместо темно-серого */
+}
+
+
+.toast-msg-text {
+  margin: 0 !important;
+  color: #ffffff !important; /* Принудительно ставим чистый белый цвет */
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+}
+
+
+
+/* Анимация появления */
+@keyframes valSlideIn {
+  from {
+    transform: translateX(120%) skewX(-5deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) skewX(0deg);
+    opacity: 1;
+  }
 }

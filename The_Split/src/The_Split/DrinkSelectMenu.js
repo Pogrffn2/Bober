@@ -1,49 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/DrinkSelectMenu.css";
 
-const barMenuDatabase = [
-  { id: 1, charter: "Cypher", name: "Cyber Cage", category: "dark", badge: "🌙 Тёмная сторона", short: "Черничный ликёр + тоник", view: "Подаётся в закрытом стакане, окутанном густым дымом от сухого льда. Сам напиток глубокого серо-голубого цвета.", taste: "Горько-сладкий, с таинственным мятным послевкусием, которое «проявляется» не сразу, как шпион в засаде.", price: "650.00 руб" },
-  { id: 2, charter: "Sage", name: "Healing Orb", category: "light", badge: "☀️ Светлая сторона", short: "Зелёный чай матча + личи + свежий огурец", view: "Ярко-нефритовый, светящийся cocktail с добавлением съедобных блёсток (кандурина). На дне лежит ледяная сфера.", taste: "Освежающий и восстанавливающий. Обладает мягким природным вкусом.", price: "550.00 руб" },
-  { id: 3, charter: "Killjoy", name: "Lockdown", category: "light", badge: "☀️ Светлая сторона", short: "Кислый лимонад + немецкий сироп из бузины + киви", view: "Неоново-жёлтый напиток в лабораторной колбе. Подаётся с шипучим леденцом, который взрывается на языке.", taste: "Экстремально кислый лимонад. Буквально парализует рецепторы кислинкой.", price: "550.00 руб" },
-  { id: 4, charter: "Deadlock", name: "Sonic Sensor", category: "dark", badge: "🌙 Тёмная сторона", short: "Шнапс + клюквенный кордиал + капля ментола", view: "Кристально прозрачный напиток, украшенный «ледяными» иглами из карамели.", taste: "Леденящий скандинавский микс. Изюминка — экстремально холодная подача.", price: "550.00 руб" },
-  { id: 5, charter: "Omen", name: "From the Shadows", category: "dark", badge: "🌙 Тёмная сторона", short: "Кофейный ликёр + тёмный ром + нотка ежевики", view: "Чернильно-чёрный cocktail, слоистый. Сверху налита плотная тёмная пена.", taste: "Терпкий и мрачный. Идеально для тех, кто любит глубокий вкус без лишней сладости.", price: "650.00 руб" },
-  { id: 6, charter: "Clove", name: "Not Dead Yet", category: "light", badge: "☀️ Светлая сторона", short: "Сладкий шотландский эль + спелая черника + вересковый мёд", view: "Мутно-розовый с фиолетовыми переливами, подаётся в бокале в форме бессмертного белого цветка.", taste: "Сначала кажется мягким, но быстро бьёт в голову.", price: "550.00 руб" },
-  { id: 7, charter: "Viper", name: "Snake Bite", category: "dark", badge: "🌙 Тёмная сторона", short: "Настойка на зеёлном перце чили + ликёр из зелёного яблока + абсент", view: "Ядовито-зелёный шот. По краям бокала — каёмка из кислой кислотной посыпки.", taste: "Жгучий и едкий. Вызывает лёгкое онемение.", price: "450.00 руб" },
-  { id: 8, charter: "Brimstone", name: "Orbital Strike", category: "dark", badge: "🌙 Тёмная сторона", short: "Американский бурбон + кленовый сироп + копчёная щепа + апельсиновый биттер", view: "Горящий коктейль янтарного цвета, который поджигается прямо перед гостем.", taste: "Классический согревающий мужской вкус.", price: "650.00 руб" },
-  { id: 9, charter: "Astra", name: "Cosmic Divide", category: "light", badge: "☀️ Светлая сторона", short: "Африк. чай ройбуш + лавандовый сироп + игристое вино", view: "Галактический cocktail со слоями фиолетового, синего и золотого цветов, напоминающий туманность.", taste: "Пьянящий вкус с эффектом «звёздных» пузырьков.", price: "550.00 руб" },
-  { id: 10, charter: "Jett", name: "Blade Storm", category: "light", badge: "☀️ Светлая сторона", short: "Корейский соджу + цитрусовый юдзу + газировка", view: "Воздушный, нежно-голубой коктейль с высокой шапкой из белой сахарной ваты (символизирует облака).", taste: "Легкий, как ветер. Пьётся очень легко и быстро.", price: "550.00 руб" },
-  { id: 11, charter: "Neon", name: "Overdrive", category: "light", badge: "☀️ Светлая сторона", short: "Тропический каламанси + энергетик + Блю Кюрасао", view: "Подаётся в высоком стакане с неоновыми светящимися палочками. Цвет — ярко-синий.", taste: "Энергетический заряд. Оставляет электрическое покалывание на губах.", price: "550.00 руб" },
-  { id: 12, charter: "Reyna", name: "Empress", category: "dark", badge: "🌙 Тёмная сторона", short: "Сухое вино + гранатовый сок + текила + кайенский перец", view: "Кроваво-красный, густой коктейль в бокале для мартини.", taste: "Страстный и опасный мексиканский микс.", price: "650.00 руб" },
-  { id: 13, charter: "Phoenix", name: "Run It Back", category: "dark", badge: "🌙 Тёмная сторона", short: "Британский джин + сироп корицы + имбирный эль + табаско", view: "Слоистый огненный шот. Нижний слой — красный, верхний слой — золотой.", taste: "Огненный вкус с каплей табаско для «огонька».", price: "450.00 руб" },
-  { id: 14, charter: "Raze", name: "Showstopper", category: "light", badge: "☀️ Светлая сторона", short: "Бразильская кашаса + пюре из манго + maракуйя + взрывная карамель", view: "Подаётся в кокосовом орехе, украженном бенгальским огнём.", taste: "Настоящий карнавал тропического вкуса!", price: "650.00 руб" },
-  { id: 15, charter: "Iso", name: "Contingency", category: "dark", badge: "🌙 Тёмная сторона", short: "Китайский байховый чай + ликёр из фиалок + джин", view: "Напиток идеально фиолетового цвета в строгом, геометрическом бокале с ровной гранью льда.", taste: "Идеальный баланс и строгая дисциплина вкуса.", price: "550.00 руб" },
-  { id: 16, charter: "Sova", name: "Hunter's Fury", category: "light", badge: "☀️ Светлая сторона", short: "Водка + настойка на таёжных травах + брусничный сок + кедровый сироп", view: "Прозрачный, как сибирский лёд, с одной крупной льдиной внутри, в которой заморожена веточка розмарина.", taste: "Крепкий, лесной и освежающий сибирский микс.", price: "550.00 руб" },
-  { id: 17, charter: "Fade", name: "Nightfall", category: "dark", badge: "🌙 Тёмная сторона", short: "Турецкий кофе + тёмный шоколад + ликёр из смородины + кардамон", view: "Густой тёмно-пурпурный напиток. Из бокала тянутся нити из чёрной карамели.", taste: "Тяжёлый, плотный, но гипнотизирующий вкус.", price: "550.00 руб" },
-  { id: 18, charter: "Breach", name: "Rolling Thunder", category: "dark", badge: "🌙 Тёмная сторона", short: "Скандинавский аквавит + имбирное пиво + грейпфрут", view: "Напиток янтарно-медного цвета, подаётся в тяжёлой вибрирующей кружке.", taste: "Оставляет сильное, плотное и горьковатое послевкусие.", price: "550.00 руб" },
-  { id: 19, charter: "Skye", name: "Seekers", category: "light", badge: "☀️ Светлая сторона", short: "Джин + сок лайма + мята + базилик + яблочный фреш", view: "Травянисто-зелёный коктейль, украшенный живым цветком или листиком эвкалипта.", taste: "Освежающий австралийский микс, максимально природный вкус.", price: "550.00 руб" },
-  { id: 20, charter: "Gekko", name: "Wingman", category: "light", badge: "☀️ Светлая сторона", short: "Сироп зелёного банана + кокосовое молоко + ананасовый сок + желе (боба)", view: "Небольшой забавный коктейль салатового цвета с желейными шариками на дне.", taste: "Сладкий, фруктовый и весёлый коктейль.", price: "550.00 руб" }
-];
 export default function DrinkSelectMenu() {
   const navigate = useNavigate();
 
-  const [sideFilter, setSideFilter] = useState("all");
-  const [selectedDrink, setSelectedDrink] = useState(null); 
-  const [loading, setLoading] = useState(false); 
-  const [isFlipped, setIsFlipped] = useState(false); 
-  const [cart, setCart] = useState([]); 
+  // --- СТЭЙТ ДЛЯ КИБЕРСПОРТИВНОГО УВЕДОМЛЕНИЯ ---
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
+  // Функция для вызова уведомления (автоматически исчезает через 4 секунды)
+  const showNotification = (message, type = "success") => {
+    setToast({ show: true, message: message.toUpperCase(), type });
+    setTimeout(() => {
+      setToast({ show: false, message: "", type: "success" });
+    }, 4000);
+  };
+
+  // Стандартные стейты страницы коктейлей
+  const [drinks, setDrinks] = useState([]);
+  const [sideFilter, setSideFilter] = useState("all");
+  const [selectedDrink, setSelectedDrink] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [cart, setCart] = useState([]);
+
+  // Загружаем меню напитков из базы данных XAMPP
+  useEffect(() => {
+    fetch("http://localhost/TheSplitBar.php")
+      .then((res) => res.json())
+      .then((data) => {
+        setDrinks(data);
+      })
+      .catch((err) => {
+        console.error("Ошибка загрузки меню:", err);
+        showNotification("Ошибка связи с базой меню!", "error");
+      });
+  }, []);
+
+  // Обработчик выбора коктейля в сетке
   const handleSelectDrink = (id) => {
     setLoading(true);
     setIsFlipped(false);
     
     setTimeout(() => {
-      const match = barMenuDatabase.find(item => item.id === id);
+      const match = drinks.find(item => item.id === id);
       setSelectedDrink(match);
       setLoading(false);
     }, 400);
   };
 
+  // Логика добавления и удаления элементов из заказа
   const toggleCart = (drink) => {
     if (!drink) return;
     const isInCart = cart.some(item => item.id === drink.id);
@@ -54,18 +60,25 @@ export default function DrinkSelectMenu() {
     }
   };
 
-  const filteredMenu = barMenuDatabase.filter(item => {
+  // Фильтрация меню по сторонам (Светлая / Темная / Все)
+  const filteredMenu = drinks.filter(item => {
     if (sideFilter === "all") return true;
     return item.category === sideFilter;
   });
 
   const hasSelected = selectedDrink !== null;
   const isSelectedInCart = hasSelected && cart.some(item => item.id === selectedDrink.id);
+
   return (
     <section className="agent-select-screen">
+      
+      {/* ШАПКА */}
       <header className="topbar">
         <div className="brand">SPLIT<span>®</span></div>
-        <div className="top-label">ВЫБОР КОКТЕЙЛЕЙ · ХАБ</div>
+        
+        <div className="header-navigation-block">
+          <div className="top-label">ВЫБОР КОКТЕЙЛЕЙ · ХАБ</div>
+        </div>
       </header>
 
       <div className="val-grid-container">
@@ -97,9 +110,9 @@ export default function DrinkSelectMenu() {
                   onClick={() => handleSelectDrink(agent.id)}
                 >
                   <div className="agent-icon-mini-box">
-                    {agent.charter.substring(0, 2).toUpperCase()}
+                    {(agent.charter || "??").substring(0, 2).toUpperCase()}
                   </div>
-                  <span>{agent.charter.toUpperCase()}</span>
+                  <span>{(agent.charter || "БЕЗ ИМЕНИ").toUpperCase()}</span>
                 </button>
               );
             })}
@@ -204,6 +217,18 @@ export default function DrinkSelectMenu() {
           </button>
         </div>
       </footer>
+
+      {/* КАСТОМНЫЙ VALORANT TOAST */}
+      {toast.show && (
+        <div className={`val-toast ${toast.type === "error" ? "toast-error" : "toast-success"}`}>
+          <div className="toast-accent-line"></div>
+          <div className="toast-content">
+            <span className="toast-status-code">{toast.type === "error" ? "SYS_ERR //" : "SYS_OK //"}</span>
+            <p className="toast-msg-text">{toast.message}</p>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }
